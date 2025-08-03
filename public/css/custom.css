@@ -1,0 +1,24 @@
+/* Your custom stylesheet */
+
+  .pico-header {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .pico-main {
+    padding: 20px;
+  }
+  
+  .pico-footer {
+    background-color: #f0f0f0;
+  }
+
+
+  .inspection-result { margin-bottom: 20px; }
+  .section-title { font-size: 24px; }
+  .overall-result { font-size: 18px; font-weight: bold; }
+  .ok { color: green; }
+  .not-ok { color: red; }
+  .check { color: orange; }
+  .legend-image { max-width: 100%; height: auto; }
+  .inspection-findings { margin-top: 10px; }

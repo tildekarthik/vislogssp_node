@@ -1,0 +1,5 @@
+{
+  "auth_server": "https://rakshak.padma-ai.com/v1/login",
+  "call_back_url": "https://vispect.padma-ai.com/v2/login_callback",
+  "validate_url": "https://rakshak.padma-ai.com/v1/validate_token"
+}

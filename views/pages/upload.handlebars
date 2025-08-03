@@ -1,0 +1,133 @@
+<div id="bodyContent">
+  <h1>Recording Reference: {{dbrecording.recording_ref}}</h1>
+  <p><strong>Company Code:</strong> {{dbrecording.location_code}}</p>
+  <p><strong>Started at:</strong> {{dbrecording.created_at}}</p>
+</div>
+
+<div class="upload-section">
+  {{#each containerViews}}
+  <h4>View {{view}}: {{viewDescription}}</h4>
+  <div class="grid">
+    <div>
+      <small style="margin-bottom: 0;"><strong>Sample</strong></small>
+      <img src="/sampleimages/{{view}}.jpg" alt="Sample {{view}}">
+    </div>
+    <div>
+      {{#if ../isPartial}}
+        <label for="photo-{{view}}" role="button" class="outline" style="padding: 0.2rem 0.3rem; font-size: 0.7rem; width: fit-content; min-width: unset; display: inline-block;">Take Photo 📷</label>
+        <input type="file" id="photo-{{view}}" name="photo" accept="image/*" capture="environment" style="display: none;" />
+        <button type="button" onclick="uploadPhoto('{{view}}', '{{../dbrecording.recording_ref}}', '{{../dbrecording.location_code}}')" style="padding: 0.2rem 0.3rem; font-size: 0.7rem;">Upload Photo ⬆️</button>
+        <input type="hidden" id="resized-{{view}}" name="photoresized" />
+      {{else}}
+        <p style="font-size: 0.8rem; color: #666;">Recording is frozen</p>
+      {{/if}}
+    </div>
+    <div id="uploaded-{{view}}">
+      <small style="margin-bottom: 0;"><strong>Uploaded photo</strong></small>
+      {{#if s3url}}
+        <img src="{{s3url}}" alt="Uploaded {{view}}" style="max-width: 100%; height: auto;">
+      {{else}}
+        <p>Uploaded photo will appear here</p>
+      {{/if}}
+    </div>
+  </div>
+  {{/each}}
+</div>
+
+{{#if allImagesPresent}}
+  {{#if isPartial}}
+    <div style="margin-top: 2rem; text-align: center;">
+      <form method="POST" action="/v1/recordings/freeze" style="display: inline; margin-right: 1rem;">
+        <input type="hidden" name="locationCode" value="{{dbrecording.location_code}}" />
+        <input type="hidden" name="recordingRef" value="{{dbrecording.recording_ref}}" />
+        <button type="submit" style="background-color: #d32f2f; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer;">
+          🔒 Freeze Recording
+        </button>
+      </form>
+    </div>
+  {{/if}}
+{{/if}}
+
+{{#if s3pdfurl}}
+  <div style="margin-top: 2rem; text-align: center;">
+    <a href="{{s3pdfurl}}" target="_blank" style="background-color: #2e7d32; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer; text-decoration: none; display: inline-block;">
+      📄 Download PDF Report
+    </a>
+  </div>
+{{/if}}
+
+<div style="margin-top: 2rem; text-align: center;">
+  <button type="button" onclick="window.location.reload()" style="background-color: #1976d2; color: white; padding: 0.75rem 1.5rem; border: none; border-radius: 4px; font-size: 1rem; cursor: pointer;">
+    🔄 Refresh
+  </button>
+</div>
+
+<script>
+  document.querySelectorAll('input[type="file"]').forEach(input => {
+      input.addEventListener('change', async event => {
+          const file = event.target.files[0];
+          if (!file) return;
+
+          const resizedBase64 = await resizeImage(file, 1920, 1920); 
+          const viewName = event.target.id.replace('photo-', '');
+          const hiddenInputId = `resized-${viewName}`;
+          const hiddenInput = document.getElementById(hiddenInputId);
+          hiddenInput.value = resizedBase64;
+      });
+  });
+
+  async function uploadPhoto(viewName, recordingRef, locationCode) {
+      const hiddenInput = document.getElementById(`resized-${viewName}`);
+      if (!hiddenInput.value) {
+          alert('Please select a photo first');
+          return;
+      }
+
+      const data = {
+          view_name: viewName,
+          recording_ref: recordingRef,
+          location_code: locationCode,
+          photo_resized: hiddenInput.value
+      };
+
+      try {
+          const response = await fetch('/v1/images/upload', {
+              method: 'POST',
+              headers: {
+                  'Content-Type': 'application/json'
+              },
+              body: JSON.stringify(data)
+          });
+          
+          if (response.ok) {
+              const imgTag = await response.text();
+              document.getElementById(`uploaded-${viewName}`).innerHTML = imgTag;
+          } else {
+              alert('Upload failed');
+          }
+      } catch (error) {
+          console.error('Error uploading photo:', error);
+          alert('Upload error');
+      }
+  }
+
+  async function resizeImage(file, maxWidth, maxHeight) {
+      const image = await createImageBitmap(file);
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      const aspectRatio = image.width / image.height;
+      let newWidth = maxWidth;
+      let newHeight = maxHeight;
+      if (aspectRatio > 1 && image.width >= maxWidth) {
+          newWidth = maxWidth; 
+          newHeight = maxWidth / aspectRatio;
+      } else if (aspectRatio < 1 && image.height >= maxHeight) {
+          newWidth = maxHeight * aspectRatio; 
+          newHeight = maxHeight;
+      }
+      canvas.width = newWidth; 
+      canvas.height = newHeight;
+      ctx.drawImage(image, 0, 0, newWidth, newHeight);
+      return canvas.toDataURL('image/jpeg', 0.8);
+  }
+</script>

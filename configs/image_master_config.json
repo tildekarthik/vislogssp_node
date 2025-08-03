@@ -1,0 +1,28 @@
+{
+    "containerViews": [
+        {
+            "view": "A",
+            "viewDescription": "Empty container - Door open condition"
+        },
+        {
+            "view": "B",
+            "viewDescription": "Empty container with CONTAINER NUMBER visible on container wall"
+        },
+        {
+            "view": "C",
+            "viewDescription": "Loading process - After 50% loading"
+        },
+        {
+            "view": "D",
+            "viewDescription": "Loading process - After 100% loading & LASHING completion"
+        },
+        {
+            "view": "E",
+            "viewDescription": "Door closing Photo - Both doors closed condition with full door visibility"
+        },
+        {
+            "view": "F",
+            "viewDescription": "Self-seal close up photo - Seal number visibility"
+        }
+    ]
+}

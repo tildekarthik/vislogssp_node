@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+service yoloinfservice {
+  rpc Inference (InferenceRequest) returns (InferenceResponse);
+}
+
+message InferenceRequest {
+  bytes image = 1;  // Send image as bytes
+  string model_name = 2;  // YOLO model name
+  int32 imgsz = 3;  // Image size
+  float conf = 4;  // Confidence threshold
+  float iou = 5;  // IoU threshold
+}
+
+message InferenceResponse {
+  string detections = 1;  // Detected objects
+}

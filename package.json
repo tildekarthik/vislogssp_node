@@ -1,0 +1,53 @@
+{
+  "name": "vislogssp_node",
+  "version": "1.0.0",
+  "description": "VISLOG SSP - Self Sealing Provision Image PDF generation",
+  "main": "dist/server.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "start": "npm run build && node dist/server.js",
+    "dev": "nodemon",
+    "build": "tsc",
+    "test": "jest"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/express": "5.0.3",
+    "@types/node": "24.1.0",
+    "jest": "30.0.5",
+    "nodemon": "3.1.10",
+    "ts-jest": "29.4.0",
+    "ts-node": "10.9.2",
+    "typescript": "5.9.2"
+  },
+  "dependencies": {
+    "@aws-sdk/s3-request-presigner": "3.859.0",
+    "@types/aws-sdk": "0.0.42",
+    "@types/compression": "1.8.1",
+    "@types/cookie-parser": "1.4.9",
+    "@types/jest": "30.0.0",
+    "@types/multer": "2.0.0",
+    "@types/multer-s3": "3.0.3",
+    "@types/pdfkit": "^0.17.2",
+    "@types/redis": "4.0.10",
+    "aws-sdk": "2.1692.0",
+    "axios": "^1.11.0",
+    "canvas": "3.1.2",
+    "compression": "1.8.1",
+    "cookie-parser": "1.4.7",
+    "dotenv": "17.2.1",
+    "express": "5.1.0",
+    "express-handlebars": "8.0.3",
+    "express-validator": "7.2.1",
+    "jwt-decode": "4.0.0",
+    "lodash": "4.17.21",
+    "multer": "2.0.2",
+    "multer-s3": "3.0.1",
+    "mysql2": "3.14.3",
+    "pdfkit": "^0.17.1",
+    "redis": "5.7.0"
+  }
+}

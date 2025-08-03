@@ -1,0 +1,12 @@
+<div id="bodyContent">
+  <h1>Welcome to VISLOG SSP by AICUE DATA LAB</h1>
+</div>
+
+<form action="/v1/recordings/start" method="get">
+  <input type="hidden" id="locationCode" name="locationCode" value="{{locationCode}}">
+
+  <label for="recordingRef">Container Ref:</label>
+  <input type="text" id="recordingRef" name="recordingRef" required>
+
+  <button type="submit">Start Recording</button>
+</form>
