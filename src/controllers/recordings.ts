@@ -122,7 +122,23 @@ export async function createRecordingHandler(req: Request, res: Response) {
             }
         }
 
-        res.render('pages/upload', { dbrecording, containerViews, allImagesPresent, isPartial, s3pdfurl });
+        // Format the created_at timestamp to human readable date
+        const formattedDbRecording = {
+            ...dbrecording,
+            created_at: dbrecording.created_at
+                ? new Date(dbrecording.created_at + (5.5 * 60 * 60 * 1000)).toLocaleString('en-IN', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                    second: '2-digit',
+                    hour12: true
+                })
+                : 'Unknown'
+        };
+
+        res.render('pages/upload', { dbrecording: formattedDbRecording, containerViews, allImagesPresent, isPartial, s3pdfurl });
     } catch (error) {
         console.error('Error creating or updating recording:', error);
         res.status(500).json({ error: 'Internal Server Error' });
