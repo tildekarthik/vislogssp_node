@@ -17,25 +17,25 @@ type Claims = {
 
 
 export async function protectRoutev2(req: Request, res: Response, next: NextFunction) {
-    // let jwt_token = "";
-    // try {
-    //     jwt_token = req.cookies.jwt;
-    //     // use axios to send the jwt_token to the auth server to verify the json should be {token:jwt_token} and this will send to the validate url
-    //     console.log(`jwt_token in protectRoutev2: ${jwt_token}`)
-    //     // console.log(`jwt Decoded : ${JSON.stringify(jwtDecode(jwt_token as string))}`);
-    //     // const response_decoded = await axios.post(VALIDATE_URL, { token: jwt_token });
-    //     // const decoded = response_decoded.data as Claims;
-    //     const decoded = jwtDecode(jwt_token) as Claims;
-    //     let userauthString = req.cookies.userauth;
-    //     let userauth = getAuthFromString(userauthString);
-    //     if (decoded && (decoded.sub !== "") && (userauth.username === decoded.sub) && isTokenValid(decoded)) {
-    //         return next();
-    //     }
-    // }
-    // catch (err) {
-    //     console.log(`err token decoding: ${err}`);
-    // }
-    // res.redirect('/v2/login');
+    let jwt_token = "";
+    try {
+        jwt_token = req.cookies.jwt;
+        // use axios to send the jwt_token to the auth server to verify the json should be {token:jwt_token} and this will send to the validate url
+        console.log(`jwt_token in protectRoutev2: ${jwt_token}`)
+        // console.log(`jwt Decoded : ${JSON.stringify(jwtDecode(jwt_token as string))}`);
+        // const response_decoded = await axios.post(VALIDATE_URL, { token: jwt_token });
+        // const decoded = response_decoded.data as Claims;
+        const decoded = jwtDecode(jwt_token) as Claims;
+        let userauthString = req.cookies.userauth;
+        let userauth = getAuthFromString(userauthString);
+        if (decoded && (decoded.sub !== "") && (userauth.username === decoded.sub) && isTokenValid(decoded)) {
+            return next();
+        }
+    }
+    catch (err) {
+        console.log(`err token decoding: ${err}`);
+    }
+    res.redirect('/v2/login');
     return next();
 }
 
@@ -86,8 +86,7 @@ export function getAuthFromString(authString: string): Authorization {
         console.log(`Error parsing auth string: ${err}`);
         return {
             username: "",
-            company: "",
-            plant: "",
+            location_code: "",
         };
     }
 }

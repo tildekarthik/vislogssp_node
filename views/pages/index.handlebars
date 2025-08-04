@@ -1,12 +1,27 @@
 <div id="bodyContent">
-  <h1>Welcome to VISLOG SSP by AICUE DATA LAB</h1>
+  <h1>Self Sealing Provision Image Logging</h1>
 </div>
 
 <form action="/v1/recordings/start" method="get">
   <input type="hidden" id="locationCode" name="locationCode" value="{{locationCode}}">
 
   <label for="recordingRef">Container Ref:</label>
-  <input type="text" id="recordingRef" name="recordingRef" required>
+  <input type="text" id="recordingRef" name="recordingRef" pattern="[A-Za-z0-9-]+" title="Only letters, numbers, and hyphens allowed. No spaces or special characters" required>
+  <small>Enter any unique number you can use for reference to search the shipment (e.g., order number if unique)</small>
+  <small>Note: Should have no spaces or special characters (*&^ etc.)</small>
 
-  <button type="submit">Start Recording</button>
+  <button type="submit">Create, Update or View</button>
 </form>
+
+<script>
+document.getElementById('recordingRef').addEventListener('input', function(e) {
+  const value = e.target.value;
+  const validPattern = /^[A-Za-z0-9-]*$/;
+  
+  if (!validPattern.test(value)) {
+    e.target.setCustomValidity('Only letters, numbers, and hyphens are allowed. No spaces or special characters.');
+  } else {
+    e.target.setCustomValidity('');
+  }
+});
+</script>

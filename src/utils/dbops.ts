@@ -6,8 +6,7 @@ import { Pool } from 'mysql2/promise';
 
 export interface Authorization {
     username: string;
-    company: string;
-    plant: string;
+    location_code: string;
 }
 export function createPool(): mysql.Pool {
     const pool = mysql.createPool({
@@ -82,13 +81,12 @@ export async function fetchFromDB(pool: mysql.Pool, query: string) {
 
 export async function getUserAuthorizationFromDB(pool: Pool, username: string): Promise<Authorization> {
     const [rows, _]: [[], any] = await pool.query(
-        `SELECT username, company, plant FROM authorization WHERE username = ? LIMIT 1`,
+        `SELECT username, location_code FROM authorization WHERE username = ? LIMIT 1`,
         [username]
     );
     let auths = rows.map((row: any) => ({
         username: row.username,
-        company: row.company,
-        plant: row.plant
+        location_code: row.location_code
     })
     ) as Authorization[];
     console.log("auths from database: ", auths);
