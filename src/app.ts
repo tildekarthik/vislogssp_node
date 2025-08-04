@@ -4,7 +4,6 @@ import { getLoginv2, getLoginCallbackv2, getLogoutv1, protectRoutev2 } from './u
 import { getIndexPage } from './controllers/index';
 import { createRecordingHandler as createRetreiveRecordingHandler, freezeRecordingHandler } from './controllers/recordings';
 import { uploadImageHandler } from './controllers/images';
-import { createRedisClient } from './utils/inferenceredis';
 
 const app = express();
 let common_pool = createPool();
