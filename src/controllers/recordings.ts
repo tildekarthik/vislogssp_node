@@ -228,19 +228,19 @@ export async function sendEmailOnFreeze(locationCode: string, recordingRef: stri
                          alt="VISLOG Logo" style="max-width: 150px;">
                 </div>
                 
-                <h2 style="color: #333; margin-bottom: 20px;">VISLOG SSP - Container Inspection Report</h2>
+                <h2 style="color: #333; margin-bottom: 20px;">VISLOG SSP - Self Sealing Provision Image Log</h2>
                 
                 <p style="font-size: 16px; line-height: 1.5; color: #555;">
                     Dear User,
                 </p>
                 
                 <p style="font-size: 16px; line-height: 1.5; color: #555;">
-                    The container inspection for <strong>${recordingRef}</strong> at location <strong>${locationCode}</strong> 
+                    The self sealing provision image logging for container <strong>${recordingRef}</strong> at location <strong>${locationCode}</strong> 
                     has been completed and the recording has been frozen.
                 </p>
                 
                 <p style="font-size: 16px; line-height: 1.5; color: #555;">
-                    Please find the PDF report using the secure download link below:
+                    Please find the PDF document containing all logged images using the secure download link below:
                 </p>
                 
                 <div style="text-align: center; margin: 30px 0;">
@@ -279,13 +279,13 @@ export async function sendEmailOnFreeze(locationCode: string, recordingRef: stri
         `;
 
         const textContent = `
-VISLOG SSP - Container Inspection Report
+VISLOG SSP - Self Sealing Provision Image Log
 
 Dear User,
 
-The container inspection for ${recordingRef} at location ${locationCode} has been completed and the recording has been frozen.
+The self sealing provision image logging for container ${recordingRef} at location ${locationCode} has been completed and the recording has been frozen.
 
-Please download the PDF report using this secure link:
+Please download the PDF document containing all logged images using this secure link:
 ${pdfUrl}
 
 Note: This download link will expire in 24 hours for security purposes.

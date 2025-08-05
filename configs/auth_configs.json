@@ -1,5 +1,5 @@
 {
-  "auth_server": "http://localhost:3102/v1/login",
-  "call_back_url": "http://localhost:3045/v2/login_callback",
-  "validate_url": "http://localhost:3102/v1/validate_token"
+  "auth_server": "https://rakshak.padma-ai.com/v1/login",
+  "call_back_url": "https://vislogssp.padma-ai.com/v2/login_callback",
+  "validate_url": "https://rakshak.padma-ai.com/v1/validate_token"
 }
