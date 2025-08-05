@@ -2,7 +2,7 @@ import express from 'express';
 import { createPool } from './utils/dbops';
 import { getLoginv2, getLoginCallbackv2, getLogoutv1, protectRoutev2 } from './utils/login';
 import { getIndexPage } from './controllers/index';
-import { createRecordingHandler as createRetreiveRecordingHandler, freezeRecordingHandler } from './controllers/recordings';
+import { createRetreiveRecordingHandler, freezeRecordingHandler } from './controllers/recordings';
 import { uploadImageHandler } from './controllers/images';
 
 const app = express();
