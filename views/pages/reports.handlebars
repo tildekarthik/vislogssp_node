@@ -1,0 +1,99 @@
+
+<div id="bodyContent">
+  <h1>VISLOG SSP Reports</h1>
+  <p><strong>Location Code:</strong> {{locationCode}}</p>
+</div>
+
+<!-- Summary Cards -->
+<div class="grid">
+  <article>
+    <header>
+      <h3>📋 In Progress (Last Month)</h3>
+    </header>
+    <h2 style="text-align: center; margin: 1rem 0;">{{summary.partialCount}}</h2>
+    <small>Partial recordings started in the last 30 days</small>
+  </article>
+
+  <article>
+    <header>
+      <h3>✅ Completed (Last Month)</h3>
+    </header>
+    <h2 style="text-align: center; margin: 1rem 0;">{{summary.frozenCount}}</h2>
+    <small>Frozen recordings started in the last 30 days</small>
+  </article>
+</div>
+
+<!-- In Progress Recordings Table -->
+<div style="margin-top: 3rem;">
+  <h3>📋 In Progress Recordings (Last Month)</h3>
+  {{#if partialRecordings.length}}
+    <figure>
+      <table role="table">
+        <thead>
+          <tr>
+            <th scope="col">Container Reference</th>
+            <th scope="col">Started At</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each partialRecordings}}
+          <tr>
+            <td>{{recordingRef}}</td>
+            <td>{{createdAt}}</td>
+            <td>
+              <a href="/v1/recordings/start?locationCode={{../locationCode}}&recordingRef={{recordingRef}}" 
+                 role="button" 
+                 class="secondary" 
+                 style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                Continue
+              </a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </figure>
+  {{else}}
+    <p style="color: #666; font-style: italic;">No recordings in progress from the last 30 days</p>
+  {{/if}}
+</div>
+
+<!-- Completed Recordings Table -->
+<div style="margin-top: 3rem;">
+  <h3>✅ Completed Recordings (Last Month)</h3>
+  {{#if frozenRecordings.length}}
+    <figure>
+      <table role="table">
+        <thead>
+          <tr>
+            <th scope="col">Container Reference</th>
+            <th scope="col">Started At</th>
+            <th scope="col">Completed At</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each frozenRecordings}}
+          <tr>
+            <td>{{recordingRef}}</td>
+            <td>{{createdAt}}</td>
+            <td>{{frozenAt}}</td>
+            <td>
+              <a href="/v1/recordings/start?locationCode={{../locationCode}}&recordingRef={{recordingRef}}" 
+                 role="button" 
+                 class="secondary" 
+                 style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">
+                View
+              </a>
+            </td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </figure>
+  {{else}}
+    <p style="color: #666; font-style: italic;">No completed recordings from the last 30 days</p>
+  {{/if}}
+</div>
+

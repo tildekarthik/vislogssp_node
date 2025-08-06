@@ -103,6 +103,21 @@ export class RecordingModel {
     }
 
     /**
+     * Get recordings by location and status from the last month based on created_at
+     */
+    async getRecordingsLastMonth(location_code: string, status: string): Promise<Recording[]> {
+        const oneMonthAgo = Date.now() - (30 * 24 * 60 * 60 * 1000); // 30 days ago
+        const query = 'SELECT * FROM recordings WHERE location_code = ? AND status = ? AND created_at >= ? ORDER BY created_at DESC';
+
+        try {
+            const [rows] = await this.pool.execute(query, [location_code, status, oneMonthAgo]);
+            return rows as Recording[];
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    /**
      * Validate recording data
      */
     static validateRecording(data: any): { isValid: boolean; errors: string[] } {
